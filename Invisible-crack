@@ -1,0 +1,128 @@
+-- ts file was generated at discord.gg/25ms
+
+
+if _G.a then
+    local v1, v2, v3 = pairs(_G.a)
+    while true do
+        local v4
+        v3, v4 = v1(v2, v3)
+        if v3 == nil then
+            break
+        end
+        v4:Disconnect()
+    end
+    _G.a = nil
+end
+repeat
+    task.wait()
+until game.Players.LocalPlayer
+local vu5 = game.Players.LocalPlayer
+local vu6 = nil
+local vu7 = nil
+local vu8 = nil
+local vu9 = false
+local vu10 = {}
+local function vu16()
+    vu6 = vu5.Character or vu5.CharacterAdded:Wait()
+    vu7 = vu6:WaitForChild("Humanoid")
+    vu8 = vu6:WaitForChild("HumanoidRootPart")
+    vu10 = {}
+    local v11 = vu6
+    local v12, v13, v14 = pairs(v11:GetDescendants())
+    while true do
+        local v15
+        v14, v15 = v12(v13, v14)
+        if v14 == nil then
+            break
+        end
+        if v15:IsA("BasePart") and v15.Transparency == 0 then
+            vu10[# vu10 + 1] = v15
+        end
+    end
+end
+local function vu30()
+    local v17 = Instance.new("ScreenGui")
+    local vu18 = Instance.new("TextButton")
+    vu18.Size = UDim2.new(0, 100, 0, 50)
+    vu18.Position = UDim2.new(0.5, - 50, 0.1, 0)
+    vu18.Text = "Invisible"
+    vu18.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    vu18.Parent = v17
+    v17.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    local vu19 = false
+    local vu20 = nil
+    local vu21 = nil
+    vu18.InputBegan:Connect(function(p22)
+        if p22.UserInputType == Enum.UserInputType.MouseButton1 then
+            vu19 = true
+            vu20 = p22.Position
+            vu21 = vu18.Position
+        end
+    end)
+    vu18.InputChanged:Connect(function(p23)
+        if p23.UserInputType == Enum.UserInputType.MouseMovement and vu19 then
+            local v24 = p23.Position - vu20
+            vu18.Position = UDim2.new(vu21.X.Scale, vu21.X.Offset + v24.X, vu21.Y.Scale, vu21.Y.Offset + v24.Y)
+        end
+    end)
+    vu18.InputEnded:Connect(function(p25)
+        if p25.UserInputType == Enum.UserInputType.MouseButton1 then
+            vu19 = false
+        end
+    end)
+    vu18.MouseButton1Click:Connect(function()
+        vu9 = not vu9
+        local v26, v27, v28 = pairs(vu10)
+        while true do
+            local v29
+            v28, v29 = v26(v27, v28)
+            if v28 == nil then
+                break
+            end
+            v29.Transparency = v29.Transparency == 0 and 0.5 or 0
+        end
+    end)
+end
+vu16()
+vu30()
+local v31 = {
+    nil,
+    nil
+}
+local v32 = vu5
+v31[1] = vu5.GetMouse(v32).KeyDown:Connect(function(p33)
+    if p33 == "g" then
+        vu9 = not vu9
+        local v34, v35, v36 = pairs(vu10)
+        while true do
+            local v37
+            v36, v37 = v34(v35, v36)
+            if v36 == nil then
+                break
+            end
+            v37.Transparency = v37.Transparency == 0 and 0.5 or 0
+        end
+    end
+end)
+v31[2] = game:GetService("RunService").Heartbeat:Connect(function()
+    if vu9 then
+        local v38 = vu8.CFrame
+        local v39 = vu7.CameraOffset
+        local v40 = v38 * CFrame.new(0, - 200000, 0)
+        local v41 = vu7
+        local v42 = vu8
+        local v43 = v40:ToObjectSpace(CFrame.new(v38.Position)).Position
+        v42.CFrame = v40
+        v41.CameraOffset = v43
+        game:GetService("RunService").RenderStepped:Wait()
+        local v44 = vu7
+        vu8.CFrame = v38
+        v44.CameraOffset = v39
+    end
+end)
+vu5.CharacterAdded:Connect(function()
+    vu9 = false
+    vu16()
+    vu30()
+end)
+_G.a = v31
